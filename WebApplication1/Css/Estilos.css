@@ -1,0 +1,96 @@
+﻿body {
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Open Sans", Arial, sans-serif;
+    background: #f4f4f4;
+    min-height: 100vh;
+}
+
+/* Barra de herramientas */
+.barra {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 12px 16px;
+    background: #c9d1db;
+}
+
+/* Botón circular de usuario */
+.btn-usuario {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    background: #707070;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+    .btn-usuario svg {
+        width: 36px;
+        height: 36px;
+        fill: #000;
+    }
+
+/* Menú principal */
+.menu {
+    display: flex;
+    gap: 16px;
+    flex: 1; /* empuja "Cerrar Sesión" a la derecha */
+    flex-wrap: wrap;
+}
+
+.btn {
+    min-width: 140px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 999px; /* forma de píldora */
+    background: #aea9a7;
+    color: #000;
+    font-size: 1.1rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+    .btn:hover {
+        background: #9a9593;
+    }
+
+    .btn:focus-visible {
+        outline: 3px solid #333;
+        outline-offset: 2px;
+    }
+
+.btn-salir {
+    background: #707070;
+}
+
+    .btn-salir:hover {
+        background: #5c5c5c;
+    }
+
+/* Zona de contenido */
+.contenido {
+    padding: 24px;
+}
+
+@media (max-width: 700px) {
+    .barra {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .btn {
+        min-width: 0;
+        flex: 1;
+    }
+}

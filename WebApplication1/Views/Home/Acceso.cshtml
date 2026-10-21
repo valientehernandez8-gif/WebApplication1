@@ -1,0 +1,49 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tienda de Abarrotes</title>
+    <link href="~/Css/Estilos.css" rel="stylesheet" />
+</head>
+<body>
+
+    <header class="barra">
+        <button class="btn-usuario" aria-label="Perfil de usuario">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4.5" /><path d="M3 21c0-4 4-6 9-6s9 2 9 6z" /></svg>
+        </button>
+
+        <nav class="menu">
+            <button class="btn" data-vista="productos">Productos</button>
+            <button class="btn" data-vista="ventas">Ventas</button>
+            <button class="btn" data-vista="proveedores">Proveedores</button>
+            <button class="btn" data-vista="usuarios">Usuarios</button>
+        </nav>
+
+        <button class="btn btn-salir" id="cerrar">Cerrar Sesion</button>
+    </header>
+
+    <main class="contenido" id="contenido">
+        <h2>Selecciona una opción del menú</h2>
+    </main>
+
+    <script>
+// Cambia el contenido según el botón presionado
+    document.querySelectorAll('[data-vista]').forEach(boton => {
+      boton.addEventListener('click', () => {
+        document.getElementById('contenido').innerHTML =
+          '<h2>' + boton.textContent + '</h2>';
+      });
+    });
+
+    document.getElementById('cerrar').addEventListener('click', () => {
+      // Aquí iría lógica real, por ejemplo: window.location.href = '/login';
+      alert('Sesión cerrada');
+    });</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Inicio de Sesión</title>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="card-title" style="text-align:center">
+        <h1>Recuperar Usuario</h1>
+    </div>
+
+    <div class="container" style="text-align:center; width:400px; margin-top:50px">
+        <form action='@Url.Action("Acceso","Home")' , method="post">
+            <label>Correo Electronico</label>
+            <input class="form-control" type="text" id="txtReUsuario" name="txtReUsuario" />
+            <br /><br />
+            <input class="form-control btn btn-success" type="submit" id="btnRecuperar2" name="btnRecuperar2" value="Recuperar" />
+        </form>
+    </div>
+</body>
+</html>
