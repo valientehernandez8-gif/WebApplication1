@@ -1,5 +1,6 @@
 ﻿body {
 }
+/*
 :root {
     --barra: #c9d1da;
     --fondo: #f5f5f5;
@@ -29,7 +30,7 @@ body {
 }
 
 /* Barra superior */
-.navbar {
+/*.navbar {
     display: flex;
     align-items: center;
     gap: 24px;
@@ -71,10 +72,10 @@ main {
     max-width: 1000px;
     margin: 0 auto;
     padding: 56px 24px;
-}
+}*/
 
 /* Barra de búsqueda */
-.buscador {
+/*.buscador {
     position: relative;
     max-width: 720px;
     margin: 0 auto;
@@ -103,10 +104,10 @@ main {
         border: 0;
         padding: 6px;
         cursor: pointer;
-    }
+    }*/
 
 /* Resultados */
-.resultados {
+/*.resultados {
     max-width: 720px;
     margin: 24px auto 0;
 }
@@ -136,10 +137,10 @@ main {
     text-align: center;
     color: #555;
     padding: 16px;
-}
+}*/
 
 /* Acciones */
-.acciones {
+/*.acciones {
     display: flex;
     justify-content: space-between;
     gap: 16px;
@@ -217,10 +218,10 @@ main {
     max-width: 1200px;
     margin: 0 auto;
     padding: 32px 24px 64px;
-}
+}*/
 
 /* Filtros */
-.filtros {
+/*.filtros {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px 24px;
@@ -299,10 +300,10 @@ main {
 
 #btnPdf {
     background: var(--pdf);
-}
+}*/
 
 /* Tabla */
-.tabla-wrap {
+/*.tabla-wrap {
     margin-top: 48px;
     overflow-x: auto;
 }
@@ -388,5 +389,407 @@ td {
 
     td {
         border: 1px solid #000;
+    }
+}*/
+
+
+
+
+/* ==========================================
+   COLORES PRINCIPALES
+========================================== */
+
+:root {
+    --verde-oscuro: #104f42;
+    --verde-principal: #155b4b;
+    --verde-claro: #e6efe7;
+    --verde-borde: #d0e1d4;
+    --amarillo: #e5aa36;
+    --amarillo-claro: #fff7e6;
+    --amarillo-borde: #f1e4c8;
+    --fondo: #f8f6ed;
+    --texto: #164b40;
+    --texto-secundario: #697b75;
+}
+
+
+/* ==========================================
+   CONFIGURACIÓN GENERAL
+========================================== */
+
+body {
+    margin: 0;
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* ==========================================
+   BARRA DE NAVEGACIÓN
+========================================== */
+
+.navbar-tienda {
+    background: var(--verde-oscuro);
+    min-height: 65px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+    .navbar-tienda .navbar-brand {
+        color: white;
+    }
+
+.logo-icono {
+    font-size: 35px;
+    color: #f3c65b;
+}
+
+.logo-texto {
+    display: flex;
+    flex-direction: column;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+    .logo-texto strong {
+        color: #f3c65b;
+        font-size: 21px;
+    }
+
+.navbar-tienda .nav-link {
+    color: #edf5f0;
+    padding: 9px 15px;
+    border-radius: 25px;
+    font-size: 13px;
+    transition: 0.25s ease;
+}
+
+    .navbar-tienda .nav-link:hover {
+        background: rgba(255, 255, 255, 0.12);
+        color: white;
+    }
+
+    .navbar-tienda .nav-link.menu-activo {
+        background: #b9d7c7;
+        color: var(--verde-oscuro);
+    }
+
+.usuario-icono {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    font-size: 27px;
+    transition: 0.2s ease;
+}
+
+    .usuario-icono:hover {
+        color: #f3c65b;
+        transform: scale(1.05);
+    }
+
+
+/* ==========================================
+   CONTENIDO PRINCIPAL
+========================================== */
+
+.contenido-principal {
+    max-width: 1600px;
+    padding-top: 25px;
+    padding-bottom: 50px;
+}
+
+
+/* ==========================================
+   BIENVENIDA
+========================================== */
+
+.bienvenida {
+    margin-bottom: 20px;
+}
+
+.titulo-bienvenida {
+    color: #104b40;
+    font-size: clamp(25px, 3vw, 36px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 6px;
+}
+
+.subtitulo-bienvenida {
+    color: #5d7069;
+    font-size: 15px;
+}
+
+.ilustracion-tienda {
+    width: 145px;
+    height: 115px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 50%;
+    background: linear-gradient( 135deg, #e3eee3, #fbf0d6 );
+    color: var(--verde-principal);
+}
+
+    .ilustracion-tienda > .bi-basket2-fill {
+        font-size: 75px;
+    }
+
+.icono-decorativo {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    color: #dfad48;
+    font-size: 32px;
+}
+
+
+/* ==========================================
+   BUSCADOR
+========================================== */
+
+.buscador {
+    max-width: 850px;
+    min-height: 48px;
+    background: #fbfaf5;
+    border: 1px solid #c4d8cb;
+    border-radius: 30px;
+    overflow: hidden;
+    transition: 0.25s ease;
+}
+
+    .buscador:focus-within {
+        border-color: var(--verde-principal);
+        box-shadow: 0 0 0 4px rgba(21, 91, 75, 0.08);
+    }
+
+    .buscador .form-control {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        color: var(--texto);
+        font-size: 13px;
+        padding-right: 18px;
+    }
+
+        .buscador .form-control::placeholder {
+            color: #8a9691;
+        }
+
+.boton-buscar {
+    border: none;
+    background: transparent;
+    color: var(--verde-principal);
+    padding-left: 18px;
+    padding-right: 8px;
+    font-size: 18px;
+}
+
+    .boton-buscar:hover,
+    .boton-buscar:focus {
+        color: var(--verde-oscuro);
+        background: transparent;
+    }
+
+
+/* ==========================================
+   RESULTADOS DE BÚSQUEDA
+========================================== */
+
+.resultados-busqueda:empty {
+    display: none;
+}
+
+
+/* ==========================================
+   TARJETAS DE ACCIONES
+========================================== */
+
+.tarjeta-accion {
+    min-height: 105px;
+    border-radius: 9px;
+    border: 1px solid transparent;
+    box-shadow: 0 4px 14px rgba(26, 65, 53, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+    .tarjeta-accion:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 9px 22px rgba(26, 65, 53, 0.11);
+    }
+
+.tarjeta-verde {
+    background: linear-gradient( 135deg, #e5eee6, #edf3eb );
+    border-color: var(--verde-borde);
+}
+
+    .tarjeta-verde:hover {
+        border-color: #9cbea8;
+    }
+
+.tarjeta-amarilla {
+    background: linear-gradient( 135deg, #fbf4e3, #fff9eb );
+    border-color: var(--amarillo-borde);
+}
+
+    .tarjeta-amarilla:hover {
+        border-color: #e9c875;
+    }
+
+
+/* ==========================================
+   ICONOS DE ACCIONES
+========================================== */
+
+.icono-accion {
+    width: 51px;
+    height: 51px;
+    min-width: 51px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    font-size: 25px;
+}
+
+.icono-verde {
+    background: var(--verde-principal);
+}
+
+.icono-amarillo {
+    background: linear-gradient( 135deg, #edbd50, #d99a25 );
+}
+
+
+/* ==========================================
+   TEXTOS DE ACCIONES
+========================================== */
+
+.titulo-tarjeta {
+    color: #174b40;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 5px;
+}
+
+.descripcion-tarjeta {
+    color: var(--texto-secundario);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.flecha-tarjeta {
+    color: var(--verde-principal);
+    font-size: 19px;
+    transition: transform 0.25s ease;
+}
+
+.tarjeta-accion:hover .flecha-tarjeta {
+    transform: translateX(4px);
+}
+
+/* BOTÓN VER TODOS LOS PRODUCTOS */
+
+.btn-ver-todos {
+    background-color: #155b4b;
+    color: white;
+    border: 1px solid #155b4b;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+    .btn-ver-todos:hover {
+        background-color: #104f42;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(16, 79, 66, 0.15);
+    }
+
+
+
+/* ==========================================
+   TABLETAS
+========================================== */
+
+@media (max-width: 991.98px) {
+
+    .navbar-tienda .navbar-collapse {
+        padding-top: 12px;
+    }
+
+    .navbar-tienda .nav-link {
+        margin-bottom: 4px;
+    }
+
+    .usuario-icono {
+        margin-top: 8px;
+    }
+
+    .titulo-bienvenida {
+        font-size: 29px;
+    }
+}
+
+
+/* ==========================================
+   CELULARES
+========================================== */
+
+@media (max-width: 575.98px) {
+
+    .contenido-principal {
+        padding-top: 22px;
+        padding-bottom: 35px;
+    }
+
+    .titulo-bienvenida {
+        font-size: 25px;
+        line-height: 1.25;
+    }
+
+    .subtitulo-bienvenida {
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    .tarjeta-accion {
+        min-height: 95px;
+    }
+
+    .icono-accion {
+        width: 46px;
+        height: 46px;
+        min-width: 46px;
+        font-size: 22px;
+    }
+
+    .titulo-tarjeta {
+        font-size: 13px;
+    }
+
+    .descripcion-tarjeta {
+        font-size: 10px;
+    }
+
+    .tarjeta-estadistica {
+        min-height: 85px;
     }
 }
