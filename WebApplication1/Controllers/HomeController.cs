@@ -23,7 +23,10 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-
+        public ActionResult Ventas()
+        {
+            return View();
+        }
 
         public ActionResult RecuperarUsuario()
         {
