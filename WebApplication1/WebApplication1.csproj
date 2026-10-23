@@ -156,6 +156,7 @@
     <Content Include="Views\Home\Acceso.cshtml" />
     <Content Include="Views\Home\RecuperarUsuario.cshtml" />
     <Content Include="Views\Home\RecuperarContrasena.cshtml" />
+    <Content Include="Views\Home\Ventas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
