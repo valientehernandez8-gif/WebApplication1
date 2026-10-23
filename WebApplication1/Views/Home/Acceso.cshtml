@@ -9,36 +9,203 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Tienda de Abarrotes</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Iconos Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Estilos -->
     <link href="~/Css/Estilos.css" rel="stylesheet" />
 </head>
 <body>
-    <nav class="navbar">
-        <div class="avatar" aria-hidden="true">
-            <svg width="30" height="30" viewBox="0 0 24 24"><circle cx="12" cy="7" r="5" /><path d="M2 22c0-6 4-8 10-8s10 2 10 8z" /></svg>
+    <!-- Barra de Navegacion -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-tienda">
+        <div class="container-fluid px-lg-4">
+            <!-- LOGOTIPO -->
+            <a class="navbar-brand d-flex align-items-center gap-2" href="@Url.Action("Acceso", "Home")">
+                <i class="bi bi-basket2 logo-icono"></i>
+                <span class="logo-texto">
+                    Tienda de Abarrotes
+                    <strong> "---" </strong>
+                </span>
+            </a>
+
+            <!-- BOTÓN RESPONSIVO -->
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#menuPrincipal"
+                    aria-controls="menuPrincipal"
+                    aria-expanded="false"
+                    aria-label="Abrir menú">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-2">
+                    <!-- Inicio -->
+                    <li class="nav-item">
+                        <a class="nav-link menu-activo" href="@Url.Action("Acceso", "Home")">
+                            <i class="bi bi-house-door-fill me-1"></i> Inicio
+                        </a>
+                    </li>
+
+                    <!-- Ventas -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Ventas", "Home")">
+                            <i class="bi bi-tag me-1"></i> Ventas
+                        </a>
+                    </li>
+
+                    <!-- Proveedores -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Proveedores", "Home")">
+                            <i class="bi bi-truck me-1"></i> Proveedores
+                        </a>
+                    </li>
+                </ul>
+                <!-- USUARIO -->
+                <div class="d-flex align-items-center">
+                    <a href="@Url.Action("Index", "Home")" class="usuario-icono" title="Cerrar sesión" aria-label="Cerrar sesión">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                </div>
+
+            </div>
         </div>
-        <a href="@Url.Action("Ventas","Home")">Ventas</a>
-        <a href="~/Views/Home/Proveedores.cshtml">Proveedores</a>
-        <a href="@Url.Action("Index","Home")" class="salir">Cerrar Sesion</a>
     </nav>
 
-    <main>
-        <form class="buscador" id="formBusqueda" role="search">
-            <input type="search" id="q" placeholder="Buscar Producto(s)" autocomplete="off" aria-label="Buscar productos">
-            <button type="submit" aria-label="Buscar">
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round">
-                    <circle cx="10" cy="10" r="7" />
-                    <path d="M15.5 15.5L21 21" />
-                </svg>
+    <!-- Contenido p-->
+    <main class="container-fluid contenido-principal px-3 px-lg-4">
+        <!-- Bienvenida -->
+        <section class="row align-items-center bienvenida">
+            <div class="col-12 col-md-8">
+                <h1 class="titulo-bienvenida">
+                    ¡Bienvenido a tu tienda!
+                </h1>
+
+                <p class="subtitulo-bienvenida mb-0">
+                    Administra tus productos y mantén tu inventario al día
+                </p>
+            </div>
+
+            <div class="col-md-4 d-none d-md-flex justify-content-end">
+                <div class="ilustracion-tienda">
+                    <i class="bi bi-basket2-fill"></i>
+                    <i class="bi bi-bag-heart-fill icono-decorativo"></i>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Buscador -->
+        <section class="row mb-4">
+            <div class="col-12 col-lg-8 col-xl-7">
+                <form class="input-group buscador" id="formBusqueda" role="search">
+                    <button class="btn boton-buscar" type="submit" aria-label="Buscar productos">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    <input type="search"
+                           class="form-control"
+                           id="q"
+                           placeholder="Buscar producto por nombre..."
+                           autocomplete="off"
+                           aria-label="Buscar productos">
+                </form>
+            </div>
+        </section>
+
+        <!-- RESULTADOS DE BÚSQUEDA -->
+        <section id="resultados"
+                 class="resultados-busqueda mb-3"
+                 aria-live="polite">
+        </section>
+
+        <!-- BOTÓN VER TODOS -->
+        <div class="mt-3 mb-4">
+
+            <button type="button"
+                    class="btn btn-ver-todos"
+                    id="verTodos">
+
+                <i class="bi bi-box-seam me-2"></i>
+
+                Ver todos los productos
+
             </button>
-        </form>
 
-        <section class="resultados" id="resultados" aria-live="polite"></section>
-
-        <div class="acciones">
-            <button class="btn" onclick="location.href='ingresar-producto.html'">Ingresar Producto(s)</button>
-            <button class="btn" id="verTodos">Ver todos los Productos</button>
-            <button class="btn" onclick="location.href='eliminar-producto.html'">Eliminar Producto(s)</button>
         </div>
+
+        <!-- Tarjetas de Acciones -->
+        <section class="row g-4 mb-4">
+            <!-- INGRESAR PRODUCTOS -->
+            <div class="col-12 col-md-4">
+                <a href="@Url.Action("IngresarProductos", "Home")" class="card tarjeta-accion tarjeta-verde h-100">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <div class="icono-accion icono-verde">
+                            <i class="bi bi-bag-plus"></i>
+                        </div>
+
+                        <div class="flex-grow-1">
+                            <h5 class="titulo-tarjeta">
+                                Ingresar productos
+                            </h5>
+                            <p class="descripcion-tarjeta mb-0">
+                                Registra nueva mercancía
+                            </p>
+                        </div>
+                        <i class="bi bi-chevron-right flecha-tarjeta"></i>
+                    </div>
+                </a>
+            </div>
+
+            <!-- VER PRODUCTOS -->
+            <div class="col-12 col-md-4">
+                <a href="@Url.Action("VerProductos", "Home")" class="card tarjeta-accion tarjeta-amarilla h-100">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <div class="icono-accion icono-amarillo">
+                            <i class="bi bi-box-seam"></i>
+                        </div>
+
+                        <div class="flex-grow-1">
+                            <h5 class="titulo-tarjeta">
+                                Ver todos los productos
+                            </h5>
+                            <p class="descripcion-tarjeta mb-0">
+                                Consulta precios y existencias
+                            </p>
+                        </div>
+
+                        <i class="bi bi-chevron-right flecha-tarjeta"></i>
+                    </div>
+                </a>
+            </div>
+
+            <!-- ELIMINAR PRODUCTOS -->
+            <div class="col-12 col-md-4">
+                <a href="@Url.Action("EliminarProductos", "Home")" class="card tarjeta-accion tarjeta-verde h-100">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <div class="icono-accion icono-verde">
+                            <i class="bi bi-trash3"></i>
+                        </div>
+
+                        <div class="flex-grow-1">
+                            <h5 class="titulo-tarjeta">
+                                Eliminar productos
+                            </h5>
+                            <p class="descripcion-tarjeta mb-0">
+                                Gestiona productos del inventario
+                            </p>
+                        </div>
+
+                        <i class="bi bi-chevron-right flecha-tarjeta"></i>
+
+                    </div>
+                </a>
+            </div>
+
+        </section>
     </main>
 
     <script>

@@ -1,0 +1,458 @@
+﻿body {
+}
+
+/* ========================================
+   COLORES GENERALES
+======================================== */
+
+:root {
+    --verde-oscuro: #155747;
+    --verde-principal: #216b56;
+    --verde-claro: #e2eee5;
+    --amarillo: #f5bd4f;
+    --fondo: #f7f5ec;
+    --texto: #194e42;
+}
+
+body {
+    margin: 0;
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+
+/* ========================================
+   BARRA SUPERIOR
+======================================== */
+
+.barra-superior {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    min-height: 63px;
+    padding: 8px 30px;
+    background: var(--verde-oscuro);
+    color: white;
+}
+
+    .barra-superior .marca-tienda {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: white;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1;
+    }
+
+.marca-tienda > i {
+    font-size: 36px;
+}
+
+.marca-tienda strong {
+    display: block;
+    color: var(--amarillo);
+}
+
+.menu-navegacion {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.enlace-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 25px;
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+    .enlace-nav:hover {
+        color: white;
+        background: rgba(255,255,255,.12);
+    }
+
+    .enlace-nav.activo {
+        background: #d5e8dc;
+        color: var(--verde-oscuro);
+    }
+
+.usuario-nav {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-left: auto;
+    font-size: 11px;
+}
+
+    .usuario-nav > i:first-child {
+        font-size: 29px;
+    }
+
+
+/* ========================================
+   CONTENEDOR PRINCIPAL
+======================================== */
+
+.contenedor-ventas {
+    width: 100%;
+    max-width: 1500px;
+    margin: auto;
+    padding: 24px;
+}
+
+
+/* ========================================
+   ENCABEZADO DE VENTAS
+======================================== */
+
+.encabezado-ventas {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 18px;
+}
+
+.titulo-seccion {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.icono-titulo {
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #d0e4d5;
+    color: var(--verde-oscuro);
+    font-size: 27px;
+}
+
+.titulo-seccion h1 {
+    margin: 0;
+    color: var(--verde-oscuro);
+    font-size: 30px;
+    font-weight: 750;
+}
+
+.titulo-seccion p {
+    margin: 0;
+    color: #5c776b;
+    font-size: 12px;
+}
+
+.informacion-usuario {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 12px 17px;
+    border: 1px solid #d4e5d8;
+    border-radius: 12px;
+    background: #e2eee5;
+}
+
+.dato-encabezado {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+    .dato-encabezado > i {
+        color: var(--verde-oscuro);
+        font-size: 25px;
+    }
+
+    .dato-encabezado span,
+    .dato-encabezado strong {
+        display: block;
+        font-size: 10px;
+    }
+
+    .dato-encabezado strong {
+        margin-top: 3px;
+        font-weight: 600;
+    }
+
+
+/* ========================================
+   PANEL DE FILTROS
+======================================== */
+
+.filtros {
+    display: grid;
+    grid-template-columns: minmax(220px, 2fr) repeat(4, minmax(110px, 1fr));
+    gap: 14px;
+    align-items: end;
+    padding: 18px;
+    background: rgba(255,255,255,.78);
+    border: 1px solid #e5e9df;
+    border-radius: 13px;
+    box-shadow: 0 3px 12px rgba(28,71,57,.04);
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+    .campo label {
+        color: #315d4e;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .campo input,
+    .campo select {
+        width: 100%;
+        min-width: 0;
+        height: 36px;
+        padding: 0 10px;
+        border: 1px solid #dfe3dc;
+        border-radius: 8px;
+        background: white;
+        color: #52685f;
+        font-size: 11px;
+        outline: none;
+    }
+
+        .campo input:focus,
+        .campo select:focus {
+            border-color: #78a993;
+            box-shadow: 0 0 0 3px rgba(33,107,86,.09);
+        }
+
+
+/* BUSCADOR */
+
+.campo-busqueda {
+    grid-column: 1 / 2;
+}
+
+.input-icono {
+    position: relative;
+}
+
+    .input-icono > i {
+        position: absolute;
+        top: 50%;
+        left: 12px;
+        transform: translateY(-50%);
+        color: var(--verde-oscuro);
+    }
+
+    .input-icono input {
+        padding-left: 35px;
+    }
+
+
+/* BOTÓN BUSCAR */
+
+.campo-boton {
+    grid-column: 2 / 4;
+}
+
+.btn-buscar {
+    width: 100%;
+    height: 36px;
+    background: var(--verde-principal);
+    color: white;
+    border: 1px solid var(--verde-principal);
+    border-radius: 9px;
+    font-size: 12px;
+}
+
+    .btn-buscar:hover {
+        background: #104b3e;
+        color: white;
+    }
+
+
+/* DESCARGAS */
+
+.descargar {
+    grid-column: 4 / 6;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-excel,
+.btn-pdf {
+    min-width: 82px;
+    height: 36px;
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.btn-excel {
+    background: var(--verde-principal);
+    color: white;
+}
+
+    .btn-excel:hover {
+        background: #104b3e;
+        color: white;
+    }
+
+.btn-pdf {
+    background: var(--amarillo);
+    color: #5d4a1e;
+}
+
+    .btn-pdf:hover {
+        background: #e5a933;
+        color: #5d4a1e;
+    }
+
+
+/* ========================================
+   TABLA DE VENTAS
+======================================== */
+
+.tabla-wrap {
+    width: 100%;
+    margin-top: 20px;
+    overflow-x: auto;
+    background: white;
+    border: 1px solid #e3e8df;
+    border-radius: 12px;
+}
+
+#tabla {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+    background: white;
+}
+
+    #tabla thead {
+        background: #e6efe7;
+    }
+
+    #tabla th {
+        padding: 14px;
+        color: #245847;
+        font-size: 11px;
+        text-align: left;
+        border-bottom: 1px solid #d7e5d9;
+    }
+
+    #tabla td {
+        padding: 13px 14px;
+        color: #526a60;
+        font-size: 12px;
+        border-bottom: 1px solid #edf0e9;
+    }
+
+    #tabla tbody tr:hover {
+        background: #f4f8f2;
+    }
+
+.mensaje {
+    padding: 20px;
+    color: #718178;
+    text-align: center;
+    font-size: 12px;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 900px) {
+
+    .barra-superior {
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 12px 16px;
+    }
+
+        .barra-superior .marca-tienda {
+            font-size: 18px;
+        }
+
+    .menu-navegacion {
+        gap: 4px;
+    }
+
+    .enlace-nav {
+        padding: 9px 10px;
+        font-size: 11px;
+    }
+
+    .contenedor-ventas {
+        padding: 18px;
+    }
+
+    .encabezado-ventas {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .filtros {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .campo-busqueda,
+    .campo-boton,
+    .descargar {
+        grid-column: 1 / -1;
+    }
+
+    .descargar {
+        justify-content: flex-start;
+    }
+
+    .informacion-usuario {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .usuario-nav {
+        font-size: 10px;
+    }
+
+    .menu-navegacion {
+        flex-wrap: wrap;
+    }
+
+    .contenedor-ventas {
+        padding: 12px;
+    }
+
+    .filtros {
+        grid-template-columns: 1fr;
+        padding: 13px;
+    }
+
+    .campo-busqueda,
+    .campo-boton,
+    .descargar {
+        grid-column: 1;
+    }
+
+    .informacion-usuario {
+        width: 100%;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .titulo-seccion h1 {
+        font-size: 26px;
+    }
+}
