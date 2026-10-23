@@ -12,38 +12,85 @@
     <link href="~/Css/Estilos.css" rel="stylesheet" />
 </head>
 <body>
+    <nav class="navbar">
+        <div class="avatar" aria-hidden="true">
+            <svg width="30" height="30" viewBox="0 0 24 24"><circle cx="12" cy="7" r="5" /><path d="M2 22c0-6 4-8 10-8s10 2 10 8z" /></svg>
+        </div>
+        <a href="@Url.Action("Ventas","Home")">Ventas</a>
+        <a href="~/Views/Home/Proveedores.cshtml">Proveedores</a>
+        <a href="@Url.Action("Index","Home")" class="salir">Cerrar Sesion</a>
+    </nav>
 
-    <header class="barra">
-        <button class="btn-usuario" aria-label="Perfil de usuario">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4.5" /><path d="M3 21c0-4 4-6 9-6s9 2 9 6z" /></svg>
-        </button>
+    <main>
+        <form class="buscador" id="formBusqueda" role="search">
+            <input type="search" id="q" placeholder="Buscar Producto(s)" autocomplete="off" aria-label="Buscar productos">
+            <button type="submit" aria-label="Buscar">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round">
+                    <circle cx="10" cy="10" r="7" />
+                    <path d="M15.5 15.5L21 21" />
+                </svg>
+            </button>
+        </form>
 
-        <nav class="menu">
-            <button class="btn" data-vista="productos">Productos</button>
-            <button class="btn" data-vista="ventas">Ventas</button>
-            <button class="btn" data-vista="proveedores">Proveedores</button>
-            <button class="btn" data-vista="usuarios">Usuarios</button>
-        </nav>
+        <section class="resultados" id="resultados" aria-live="polite"></section>
 
-        <button class="btn btn-salir" id="cerrar">Cerrar Sesion</button>
-    </header>
-
-    <main class="contenido" id="contenido">
-        <h2>Selecciona una opción del menú</h2>
+        <div class="acciones">
+            <button class="btn" onclick="location.href='ingresar-producto.html'">Ingresar Producto(s)</button>
+            <button class="btn" id="verTodos">Ver todos los Productos</button>
+            <button class="btn" onclick="location.href='eliminar-producto.html'">Eliminar Producto(s)</button>
+        </div>
     </main>
 
     <script>
-// Cambia el contenido según el botón presionado
-    document.querySelectorAll('[data-vista]').forEach(boton => {
-      boton.addEventListener('click', () => {
-        document.getElementById('contenido').innerHTML =
-          '<h2>' + boton.textContent + '</h2>';
-      });
-    });
+        const API = 'buscar-productos';          // URL del Servlet
+        const form = document.getElementById('formBusqueda');
+        const input = document.getElementById('q');
+        const contenedor = document.getElementById('resultados');
+        let temporizador;
 
-    document.getElementById('cerrar').addEventListener('click', () => {
-      // Aquí iría lógica real, por ejemplo: window.location.href = '/login';
-      alert('Sesión cerrada');
-    });</script>
+        // Evita inyección de HTML al pintar datos de la base de datos
+        const esc = s => String(s ?? '').replace(/[&<>"']/g,
+            c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+        async function buscar(texto) {
+            contenedor.innerHTML = '<p class="mensaje">Buscando…</p>';
+            try {
+                const resp = await fetch(`${API}?q=${encodeURIComponent(texto)}`);
+                if (!resp.ok) throw new Error(resp.status);
+                pintar(await resp.json());
+            } catch (e) {
+                contenedor.innerHTML = '<p class="mensaje">No se pudo realizar la búsqueda. Inténtalo de nuevo.</p>';
+            }
+        }
+
+        function pintar(productos) {
+            if (!productos.length) {
+                contenedor.innerHTML = '<p class="mensaje">No se encontraron productos.</p>';
+                return;
+            }
+            contenedor.innerHTML = `
+          <table>
+            <thead><tr><th>Código</th><th>Nombre</th><th>Precio</th><th>Stock</th></tr></thead>
+            <tbody>${productos.map(p => `
+              <tr><td>${esc(p.codigo)}</td><td>${esc(p.nombre)}</td>
+                  <td>$${Number(p.precio).toFixed(2)}</td><td>${esc(p.stock)}</td></tr>`).join('')}
+            </tbody>
+          </table>`;
+        }
+
+        // Buscar al enviar el formulario (Enter o clic en la lupa)
+        form.addEventListener('submit', e => { e.preventDefault(); buscar(input.value.trim()); });
+
+        // Buscar mientras se escribe (espera 300 ms para no saturar el servidor)
+        input.addEventListener('input', () => {
+            clearTimeout(temporizador);
+            const texto = input.value.trim();
+            if (!texto) { contenedor.innerHTML = ''; return; }
+            temporizador = setTimeout(() => buscar(texto), 300);
+        });
+
+        document.getElementById('verTodos').addEventListener('click', () => { input.value = ''; buscar(''); });
+    </script>
+
 </body>
 </html>

@@ -1,0 +1,187 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ventas</title>
+    <link href="~/Css/Estilos.css" rel="stylesheet" />
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="avatar" aria-hidden="true">
+            <svg width="30" height="30" viewBox="0 0 24 24"><circle cx="12" cy="7" r="5" /><path d="M2 22c0-6 4-8 10-8s10 2 10 8z" /></svg>
+        </div>
+        <a href="@Url.Action("Acceso","Home")">Inicio</a>
+        <a href="@Url.Action("Ventas","Home")" class="activo">Ventas</a>
+        <a href="@Url.Action("Proveedores","Home")">Proveedores</a>
+        <a href="@Url.Action("Index","Home")" class="salir">Cerrar Sesion</a>
+    </nav>
+
+    <main>
+        <form class="filtros" id="formFiltros">
+            <div class="campo">
+                <label for="categoria">Categoria</label>
+                <select id="categoria"><option value="">Todas</option></select>
+            </div>
+            <div class="campo">
+                <label for="proveedor">Proveedor</label>
+                <select id="proveedor"><option value="">Todos</option></select>
+            </div>
+            <div class="campo">
+                <label for="desde">Desde</label>
+                <input type="datetime-local" id="desde" step="1">
+            </div>
+            <div class="campo">
+                <label for="hasta">Hasta</label>
+                <input type="datetime-local" id="hasta" step="1">
+            </div>
+
+            <div class="campo">
+                <label for="estatus">Estatus</label>
+                <select id="estatus">
+                    <option value="">Todos</option>
+                    <option value="PAGADO">Pagado</option>
+                    <option value="PENDIENTE">Pendiente</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="producto">Producto</label>
+                <input type="text" id="producto" maxlength="100" autocomplete="off" placeholder="Nombre del producto">
+            </div>
+
+            <button type="submit" class="btn" id="btnBuscar">Buscar</button>
+
+            <div class="descargar">
+                <span>Descargar</span>
+                <div>
+                    <button type="button" class="btn" id="btnExcel">Excel</button>
+                    <button type="button" class="btn" id="btnPdf">PDF</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="tabla-wrap">
+            <table id="tabla">
+                <thead>
+                    <tr><th>Fecha</th><th>Producto</th><th>Total de Productos</th><th>Metodo de pago</th><th>Total</th><th>Estatus</th><th>Opciones</th></tr>
+                </thead>
+                <tbody id="cuerpo"></tbody>
+            </table>
+            <p class="mensaje" id="mensaje" aria-live="polite">Elige los filtros y presiona Buscar.</p>
+        </div>
+    </main>
+
+    <script>const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? '').replace(/[&<>"']/g,
+      c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const cap = s => s ? s.charAt(0) + s.slice(1).toLowerCase() : '-';
+  let ultimoResultado = [];
+
+  const ICONOS = {
+    ver: '<svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+    editar: '<svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><path d="M11 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-6"/><path d="M18 2l4 4-10 10H8v-4z"/></svg>',
+    eliminar: '<svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V3h8v3M6 6l1 15h10l1-15M10 10v7M14 10v7"/></svg>'
+  };
+
+  // 1) Cargar categorías y proveedores desde la base de datos
+  async function cargarFiltros() {
+    try {
+      const r = await fetch('filtros-ventas');
+      if (!r.ok) throw new Error();
+      const data = await r.json();
+      llenar($('categoria'), data.categorias);
+      llenar($('proveedor'), data.proveedores);
+    } catch (e) {
+      $('mensaje').textContent = 'No se pudieron cargar las categorías y proveedores.';
+    }
+  }
+  function llenar(select, items) {
+    items.forEach(i => select.add(new Option(i.nombre, i.id)));
+  }
+
+  // 2) Buscar con los filtros elegidos
+  async function buscar() {
+    const params = new URLSearchParams();
+    const campos = { categoria: 'categoria', proveedor: 'proveedor', estatus: 'estatus', desde: 'desde', hasta: 'hasta' };
+    for (const [clave, id] of Object.entries(campos)) {
+      if ($(id).value) params.set(clave, $(id).value);
+    }
+    if ($('desde').value && $('hasta').value && $('desde').value > $('hasta').value) {
+      mostrarMensaje('La fecha "Desde" no puede ser mayor que "Hasta".'); return;
+    }
+    mostrarMensaje('Buscando…');
+    try {
+      const r = await fetch('buscar-ventas?' + params);
+      if (!r.ok) throw new Error();
+      ultimoResultado = await r.json();
+      pintar(ultimoResultado);
+    } catch (e) {
+      mostrarMensaje('No se pudo realizar la búsqueda. Inténtalo de nuevo.');
+    }
+  }
+
+  function mostrarMensaje(txt) { $('cuerpo').innerHTML = ''; $('mensaje').textContent = txt; $('mensaje').hidden = false; }
+
+  function pintar(ventas) {
+    if (!ventas.length) { mostrarMensaje('No se encontraron ventas con esos filtros.'); return; }
+    $('mensaje').hidden = true;
+    $('cuerpo').innerHTML = ventas.map(v => `
+      <tr>
+        <td>${esc(v.fecha)}</td>
+        <td>${v.productos.map(esc).join('<br>')}</td>
+        <td>${esc(v.totalProductos)}</td>
+        <td>${esc(v.metodoPago || '-')}</td>
+        <td>MXN ${Number(v.total).toFixed(2)}</td>
+        <td>${cap(v.estatus)}</td>
+        <td class="opciones">
+          <button class="op ver" data-id="${v.id}" aria-label="Ver más">${ICONOS.ver}</button>
+          <button class="op editar" data-id="${v.id}" aria-label="Editar">${ICONOS.editar}</button>
+          <button class="op eliminar" data-id="${v.id}" aria-label="Eliminar">${ICONOS.eliminar}</button>
+        </td>
+      </tr>`).join('');
+  }
+
+  // 3) Opciones por fila (Ver / Editar / Eliminar)
+  $('cuerpo').addEventListener('click', async e => {
+    const b = e.target.closest('.op'); if (!b) return;
+    const id = b.dataset.id;
+    if (b.classList.contains('ver'))    location.href = 'venta-detalle.html?id=' + id;
+    if (b.classList.contains('editar')) location.href = 'venta-editar.html?id=' + id;
+    if (b.classList.contains('eliminar')) {
+      if (!confirm('¿Eliminar esta venta? Esta acción no se puede deshacer.')) return;
+      const r = await fetch('eliminar-venta', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'id=' + encodeURIComponent(id)
+      });
+      if (r.ok) buscar(); else alert('No se pudo eliminar la venta.');
+    }
+  });
+
+  // 4) Descargar: Excel (CSV que abre Excel) y PDF (diálogo de impresión)
+  $('btnExcel').addEventListener('click', () => {
+    if (!ultimoResultado.length) { alert('Primero realiza una búsqueda.'); return; }
+    const filas = [['Fecha','Producto','Total de Productos','Metodo de pago','Total','Estatus']]
+      .concat(ultimoResultado.map(v => [v.fecha, v.productos.join(' / '), v.totalProductos, v.metodoPago || '-', v.total, cap(v.estatus)]));
+    const csv = filas.map(f => f.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\r\n');
+    const url = URL.createObjectURL(new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' }));
+    const a = Object.assign(document.createElement('a'), { href: url, download: 'ventas.csv' });
+    a.click(); URL.revokeObjectURL(url);
+  });
+  $('btnPdf').addEventListener('click', () => {
+    if (!ultimoResultado.length) { alert('Primero realiza una búsqueda.'); return; }
+    window.print(); // En el diálogo elige "Guardar como PDF"
+  });
+
+  $('formFiltros').addEventListener('submit', e => { e.preventDefault(); buscar(); });
+  cargarFiltros();</script>
+</body>
+</html>
+
